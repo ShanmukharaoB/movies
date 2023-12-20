@@ -1,0 +1,148 @@
+<style>
+  .movie-cards {
+    border: 1px solid #cacaca;
+    padding: 4px;
+    border-radius: 0.25rem;
+    margin: 2px;
+    line-height: 1.5;
+    width: 136px;
+
+    position: relative;
+  }
+  .cards_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .cards_wrapper .movie-cards label {
+    display: block;
+  }
+  .cards_wrapper .movie-cards a {
+    border: 1px solid #cacaca;
+    border-radius: 0.25rem;
+    background-color: #d8d8d8;
+    padding: 3px;
+    font-weight: bold;
+    position: absolute;
+    width: 87%;
+    left: 7px;
+    bottom: 7px;
+    text-align: center;
+  }
+  .header-control {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 18px;
+  }
+  .header2-control {
+   width: 600px;
+   margin: auto;
+    padding: 60px;
+  }
+</style>
+<div *ngIf="!descriptionShowDilog">
+  <div class="header-control">
+    <div>
+      <label>Movie Name:</label>
+      <input
+        type="text"
+        [(ngModel)]="MovieName"
+    placeholder="search movie name"
+      />
+      <button
+        (click)="onSearch()"
+        style="background-color: blueviolet; color: white"
+      >
+        Search
+      </button>
+    </div>
+    <div>
+      <label>From Date:</label>
+      <input
+        type="date"
+        [(ngModel)]="fromDate"
+        (click)="datePicker()"
+        [max]="currentDate"
+      />
+    </div>
+ 
+    <div>
+      <label>To Date:</label>
+      <input
+        type="date"
+        [(ngModel)]="toDate"
+        [min]="fromDate"
+        [max]="currentDate"
+        [disabled]="!fromDate"
+      />
+    </div>
+    <div>
+      <button
+        (click)="onSearch()"
+        style="background-color: blueviolet; color: white"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+  <div    style="display: flex;" >
+    <div *ngFor="let item of checkboxItems">
+      <label>
+        <button (click)="onCheckboxChange(item)">
+        {{ item.label }}</button>
+      </label>
+    </div>
+  </div>
+
+  <!-- <h2>Movies</h2> -->
+  <div class="cards_wrapper">
+    <div
+      class="movie-cards"
+      *ngFor="let movie of filterData"
+      (click)="descrption(movie)"
+    >
+      <img src="{{ movie.poster_path }}" style="height: 160px; width: 135px" />
+      <div style="height: 150px">
+        <label style="font-size: 12px; color: gray"
+          ><img
+            src="assets/star.png"
+            alt="My PNG Image"
+            style="height: 15px; width: 15px"
+          />
+          6.9</label
+        >
+        <!-- <img src="../movie/star.png"> -->
+        <label style="font-size: 16px; font-weight: bold; color: #000">{{
+          movie.title
+        }}</label>
+        <label style="font-size: 12px; color: gray">2023 2h 34m</label>
+        <a>{{ movie.release_date }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="header2-control"*ngIf="descriptionShowDilog">
+ <div style="margin-bottom: 10px;">
+  <button  (click)="back()"   style="background-color: blueviolet; color: white; ">Back</button>
+ </div>
+  <div  *ngFor="let items of descpDataa">
+    <div>
+      <div>
+        <video controls autoplay loop height="200" width="550" ali>
+          <source src="{{ items.backdrop_path }}" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <div>
+        <label>geners:</label>
+        <label *ngFor="let item of items['genres']">{{ item }}</label>
+      </div>
+      <div>
+        <p><label>Description:</label>
+          {{ items.overview }}</p>
+      </div>
+    </div>
+  </div>
+</div>
